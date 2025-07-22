@@ -39,6 +39,15 @@ defmodule GpsServer.Protocols.Topflytech.Handler do
     :gen_tcp.send(socket, response)
   end
 
+
+  defp handle_decoded({:ok, decoded_data = %{message_type: :alarm, serial_number: sn, imei: _imei, imei_bcd: imei_bcd}}, socket) do
+    Logger.info("DECODED DATA [Alarm]:\n#{decoded_data |> inspect() |> IO.iodata_to_binary()}")
+    response = <<0x25, 0x25, original_type, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, imei_bcd::binary, 0x03>>
+    Logger.info("Heartbeat Response: #{Base.encode16(response, case: :lower)}")
+    :gen_tcp.send(socket, response)
+  end
+
+
   defp handle_decoded({:ok, decoded_data = %{message_type: _, serial_number: sn, imei: _imei, imei_bcd: imei_bcd, original_type: original_type}}, socket) do
     Logger.info("DECODED DATA [#{decoded_data.message_type}]:\n#{decoded_data |> inspect() |> IO.iodata_to_binary()}")
     response = <<0x25, 0x25, original_type, 0x00, 0x0F, sn::16, imei_bcd::binary>>
