@@ -9,7 +9,7 @@ defmodule GpsServer do
   ## Examples
 
       iex> GpsServer.hello()
-      :world
+      :worldd
 
   """
   def hello do
