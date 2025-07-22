@@ -10,7 +10,7 @@ defmodule GpsServer.Protocols.Topflytech.Decoder do
       0x03 -> decode_heartbeat(payload, message_type)
       0x04 -> decode_location_v1(payload, message_type, :alarm)
       0x13 -> decode_location_v2(payload, message_type, :alarm)
-      0x14 -> decode_location_v2(payload, message_type, :alarm)
+      0x14 -> decode_location_v2(payload, message_type, :GPSLocation)
       0x16 -> decode_location_with_sensor(payload, message_type)
       0x18 -> decode_location_with_sensor(payload, message_type, :alarm)
       0x33 -> decode_location_v2_with_sensor(payload, message_type)
