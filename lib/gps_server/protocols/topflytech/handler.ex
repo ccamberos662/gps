@@ -50,7 +50,7 @@ defmodule GpsServer.Protocols.Topflytech.Handler do
 
   defp handle_decoded({:ok, decoded_data = %{message_type: :GPSLocation, imei: _imei, serial_number: sn, imei_bcd: imei_bcd, original_type: original_type}}, socket) do
     Logger.info("DECODED DATA [GPS Location 0x13]:\n#{decoded_data |> inspect() |> IO.iodata_to_binary()}")
-    response = <<0x25, 0x25, original_type, sn::16, imei_bcd::binary>>
+    response = <<0x25, 0x25, original_type, 0x00,0x0F,0x00,0x01, imei_bcd::binary>>
     Logger.info("Alarmm Response: #{Base.encode16(response, case: :lower)}")
     :gen_tcp.send(socket, response)
   end
