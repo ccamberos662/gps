@@ -34,12 +34,21 @@ end
 import Config
 
 config :logger, :console,
-  format: {CustomLoggerFormatter, :format},
-  level: :info,
-  metadata: [:port, :protocol, :peer]
+       format: {CustomLoggerFormatter, :format},
+       level: :info,
+       metadata: [:port, :protocol, :peer]
 
 config :logger, :file,
-  path: "gps_server.log",
-  format: {CustomLoggerFormatter, :format},
-  level: :info,
-  metadata: [:port, :protocol, :peer]
+       path: "gps_server.log",
+       format: {CustomLoggerFormatter, :format},
+       level: :info,
+       metadata: [:port, :protocol, :peer]
+
+# NEW: Listener configuration is now defined here.
+config :gps_server, :listeners, [
+  %{port: 5027, protocol: :meitrack},
+  %{port: 5000, protocol: :teltonika},
+  %{port: 5024, protocol: :queclink},
+  %{port: 5006, protocol: :ruptela},
+  %{port: 5015, protocol: :topflytech}
+]
