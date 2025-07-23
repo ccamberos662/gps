@@ -16,7 +16,7 @@ defmodule GpsServer.Protocols.Teltonika.Handler do
   frame, letting handle_data determine the packet type.
   """
   def frame(<<0, 0, 0, 0, data_len::size(32), _rest::binary>> = buffer) do
-    Logger.info("Running teltonika/handler.ex version 1.7.24")
+    Logger.info("Running teltonika/handler.ex version 1.7.24.1")
     # This is an AVL data packet (starts with zero preamble)
     total_len = @data_header_len + data_len + @data_crc_len
     if byte_size(buffer) >= total_len do
@@ -28,7 +28,7 @@ defmodule GpsServer.Protocols.Teltonika.Handler do
   end
 
   def frame(<<imei_len::size(16), _rest::binary>> = buffer) do
-    Logger.info("Running teltonika/handler.ex version 1.7.24")
+    Logger.info("Running teltonika/handler.ex version 1.7.24.2")
     # This is the initial IMEI packet
     total_len = @imei_prefix_len + imei_len
     if byte_size(buffer) >= total_len do
@@ -42,7 +42,7 @@ defmodule GpsServer.Protocols.Teltonika.Handler do
   def frame(<<>>), do: {:more, "Empty buffer"}
 
   def frame(buffer) do
-    Logger.info("Running teltonika/handler.ex version 1.7.24")
+    Logger.info("Running teltonika/handler.ex version 1.7.24.3")
     {:error, {:unknown_packet_format, buffer}}
   end
 
@@ -73,7 +73,7 @@ defmodule GpsServer.Protocols.Teltonika.Handler do
   defp handle_valid_data(data_field, socket) do
     case Decoder.decode(data_field) do
       {:ok, %{num_records: count} = decoded_data} ->
-        Logger.info("Successfully decoded #{count} AVL records.")
+        Logger.info("Successfully decoded #{count} AVL records.4")
         # Log a summary of decoded_data instead of the full structure
         Logger.info("DECODED DATA SUMMARY: codec=#{decoded_data.codec}, num_records=#{count}, records_count=#{length(decoded_data.records)}")
         # Optionally log full data with safe encoding
