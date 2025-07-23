@@ -16,7 +16,7 @@ defmodule GpsServer.Protocols.Teltonika.Handler do
   frame, letting handle_data determine the packet type.
   """
   def frame(<<0, 0, 0, 0, data_len::size(32), _rest::binary>> = buffer) do
-    #Logger.info("Running teltonika/handler.ex version 1.7.24.1")
+    Logger.info("Running teltonika/handler.ex version 1.7.24.1")
     # This is an AVL data packet (starts with zero preamble)
     total_len = @data_header_len + data_len + @data_crc_len
     if byte_size(buffer) >= total_len do
