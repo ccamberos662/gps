@@ -5,10 +5,7 @@ defmodule GpsServer.Application do
 
   @impl true
   def start(_type, _args) do
-    # REMOVED: The unsafe loop for purging Teltonika modules has been deleted.
 
-    Logger.info("Application compiled with version 1.7.24")
-    Logger.info("Logger configuration: #{inspect(Application.get_all_env(:logger))}")
 
     # Delay module logging to ensure all modules are loaded
     Task.start(fn ->
